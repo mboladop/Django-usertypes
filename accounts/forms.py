@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
@@ -40,10 +41,7 @@ class UserRegistrationForm(UserCreationForm):
         return password2
         
         
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="Profile")
-    description = models.TextField()
-    image = models.ImageField(upload_to="avatars", null=False, default='no_image.jpg')
-    
-    def __str__(self):
-        return self.user.username
+class ProfileRegistrationForm(forms.ModelForm): 
+    class Meta: 
+        model=Profile
+        fields= ['description', 'image']

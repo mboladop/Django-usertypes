@@ -5,7 +5,8 @@
             <h2>Create a new account</h2>
             <p>Already got an account? <a href="{% url 'login' %}">Sign In</a></p>
             {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
+            {{ profile_form.as_p }}
             <button type="submit" class="btn btn-primary">Create account</button>
         
     </form>
