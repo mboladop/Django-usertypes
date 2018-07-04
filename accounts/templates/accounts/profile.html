@@ -5,5 +5,8 @@
 <p>You are logged in as {{ user }} </p>
 <p>Email: {{ user.email }}</p>
 <p>Bio: {{ user.Profile.description }}</p>
+<p>Image:<img src="{{ MEDIA_URL }}{{ user.Profile.image }}" width = 100px></img></p>
  <a href="{% url 'home' %}">Back</a>
 {% endblock %}
+
+ 

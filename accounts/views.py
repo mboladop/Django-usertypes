@@ -29,9 +29,31 @@ def login(request):
 
 
 def register(request):
-    form = UserRegistrationForm()
-    profile_form = ProfileRegistrationForm()
-    return render(request, "accounts/register.html", {'form': form, 'profile_form': profile_form})
+    
+    if request.method == "POST":
+        user_form = UserRegistrationForm(request.POST)
+        profile_form = ProfileRegistrationForm(request.POST, request.FILES)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            
+            u = user_form.cleaned_data['username']
+            p = user_form.cleaned_data['password1']
+            user = authenticate(username=u, password=p)
+            
+            if user is not None:
+                auth.login(request, user)
+                return redirect("/")
+            else:
+                user_form.add_error(None, "Can't log in now, try later.")
+    else:
+        user_form = UserRegistrationForm()
+        profile_form = ProfileRegistrationForm()
+
+    return render(request, "accounts/register.html", {'form': user_form, 'profile_form': profile_form})
     
 def logout(request):
     auth.logout(request)
