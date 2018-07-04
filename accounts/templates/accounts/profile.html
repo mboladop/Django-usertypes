@@ -6,7 +6,17 @@
 <p>Email: {{ user.email }}</p>
 <p>Bio: {{ user.Profile.description }}</p>
 <p>Image:<img src="{{ MEDIA_URL }}{{ user.Profile.image }}" width = 100px></img></p>
+
+{% if user.buyer %}
+<p>You are a buyer</p>
+{% endif %}
+
+{% if user.seller %}
+<p>You are a seller</p>
+{% endif %}
+ 
  <a href="{% url 'home' %}">Back</a>
+
 {% endblock %}
 
  
